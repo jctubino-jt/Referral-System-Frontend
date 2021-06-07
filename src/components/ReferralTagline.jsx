@@ -5,7 +5,7 @@ function ReferralTagLine() {
   return (
     <div className="centerImage">
       <div>
-        <img src={referralPage} alt="ReferralPage" class="centerImage" />
+        <img src={referralPage} alt="ReferralPage" className="centerImage" />
       </div>
       <br></br>
       <div className="webTitle blueHeader">REFER NOW</div>

@@ -8,7 +8,7 @@ function SignUpForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-  let referrer_id = "TheReferrer";
+  let referrer_id = "";
   const referred_email = email;
 
   if (localStorage.getItem("referrer_id") != null) {
@@ -42,14 +42,27 @@ function SignUpForm() {
     });
 
     result = await result.json();
+    /*
+    if (result.error != 401) {
+      history.push("/referrals");
+    } else {
+      localStorage.clear();
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Wrong email/password",
+      });
+    }
+  }
+  */
     localStorage.setItem("user-info", JSON.stringify(result));
 
-    let referralInfo = { referrer_id, referred_email };
-
-    let resultForAddReferral = await fetch(
+    //update referral status in referrals table
+    let referralInfo = { referred_email };
+    let resultForUpdateReferral = await fetch(
       "http://localhost:8000/api/referral",
       {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(referralInfo),
         headers: {
           "Content-Type": "application/json",
@@ -58,13 +71,41 @@ function SignUpForm() {
       }
     );
 
-    resultForAddReferral = await resultForAddReferral.json();
-    console.log(resultForAddReferral);
+    resultForUpdateReferral = await resultForUpdateReferral.json();
+    console.log(resultForUpdateReferral);
+
+    //update referral count of referrer
+    updateReferralCount(referrer_id);
 
     //change add to url
-    if (!result.error) {
+    if (result.error != 401) {
       history.push("/referrals");
     }
+  }
+
+  async function updateReferralCount(referrer_id) {
+    //for (var x = 0; x < emails.length; x++) {
+    //let id = user.id;
+    //let add_referral_count = emails.length;
+    let referral_id = referrer_id;
+    let userInfo = { referral_id };
+
+    let resultForUpdateUserReferralCount = await fetch(
+      "http://localhost:8000/api/user/referral_count",
+      {
+        method: "PUT",
+        body: JSON.stringify(userInfo),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
+
+    resultForUpdateUserReferralCount =
+      await resultForUpdateUserReferralCount.json();
+    console.log(resultForUpdateUserReferralCount);
+    //}
   }
 
   return (
