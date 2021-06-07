@@ -1,5 +1,7 @@
 import React, { Component, useState } from "react";
 import { useHistory } from "react-router";
+import { BrowserRouter, Router, Link, Route } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function SignInForm() {
   const [email, setEmail] = useState("");
@@ -7,7 +9,6 @@ function SignInForm() {
   const history = useHistory();
 
   async function login() {
-    console.warn(email, password);
     let item = { email, password };
     let result = await fetch("http://localhost:8000/api/login", {
       method: "POST",
@@ -19,7 +20,18 @@ function SignInForm() {
     });
     result = await result.json();
     localStorage.setItem("user-info", JSON.stringify(result));
-    history.push("/referrals");
+    console.log("signin result", result);
+
+    if (result.error != 401) {
+      history.push("/referrals");
+    } else {
+      localStorage.clear();
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Wrong email/password",
+      });
+    }
   }
 
   return (
@@ -55,6 +67,10 @@ function SignInForm() {
               Sign In
             </button>
           </div>
+
+          <span>
+            Don't have an account? <Link to="/signup">Sign Up</Link>
+          </span>
         </div>
       </div>
     </div>

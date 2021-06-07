@@ -83,6 +83,8 @@
   font-size: 17px;
   padding: 14px 16px;
   width: 330px;
+  background-color: #e9eeff;
+  border-color: transparent;
 }
 
 .signInButton {
@@ -96,6 +98,12 @@
   width: 332px;
 }
 
+.sendButton {
+  height: 100%;
+  width: 100px;
+  margin-left: 20px;
+}
+
 .emailForm {
   width: 545px;
 }
@@ -107,6 +115,40 @@
 .referralContainer {
   display: flex;
   justify-content: center;
+  height: 50px;
+}
+
+.react-multi-email > span[data-placeholder] {
+  font-size: 20px;
+}
+
+.header {
+  background-color: #e9eeff;
+}
+
+.centerImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.blueHeader {
+  color: #0078e8;
+  margin: 20px;
+}
+
+.referralTagline1 {
+  font-weight: 800px;
+  font-size: 40px;
+  margin: 15px;
+}
+
+.referralTagline2 {
+  font-weight: 200px;
+  font-size: 20px;
+  text-align: center;
+  margin: 15px;
 }
 
 @keyframes App-logo-spin {

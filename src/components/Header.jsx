@@ -13,7 +13,7 @@ function Header() {
 
   return (
     <div>
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="light" class="header">
         <Navbar.Brand>Refer With Me</Navbar.Brand>
         <Nav className="mr-auto">
           {localStorage.getItem("user-info") ? (

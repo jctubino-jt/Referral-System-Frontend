@@ -13,7 +13,7 @@ function SignInPage() {
   });
 
   return (
-    <div>
+    <div className="home-container">
       <HomepageBanner />
       <SignUpForm />
     </div>

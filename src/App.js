@@ -4,12 +4,7 @@ import './App.css';
 import Swal from 'sweetalert2'
 //For API Requests
 import axios from 'axios';
-import SignInForm from './components/SignInForm';
-import Header from './components/Header';
-import SignUpForm from './components/SignUpForm';
-import {BrowserRouter, Route} from 'react-router-dom';
-import ReferralSendEmails from './components/ReferralSendEmails';
-import HomepageBanner from './components/HomepageBanner';
+import {BrowserRouter, Route,useParams,Switch} from 'react-router-dom';
 import SignUpPage from './pages/SignUpPage';
 import ReferralPage from './pages/ReferralPage';
 import SignInPage from './pages/SignInPage';
@@ -17,33 +12,38 @@ import Protected from './Protected';
 
 class App extends React.Component
 {
-  
+  state = {
+  }
   
   render()
   {
-
     return (
-      <div className="home-container">
+      <div>
         <BrowserRouter>
-        
-        <Route path="/referrals">
-          {/* <ReferralPage/> */}
-          <Protected Cmp={ReferralPage}/>
+
+        <Switch>
+        <Route exact path="/">
+          <SignInPage />
         </Route>
-        <Route path="/signin">
+
+
+        <Route path={["/signin"]} >
           <SignInPage/>
         </Route>
-        <Route path="/signup">
-          <SignUpPage/>
+        
+        <Route path="/referrals">
+          {/* <ReferralPage/> comment out*/}
+          <Protected Cmp={ReferralPage}/>
         </Route>
+        
+          <Route path={["/refer=:referrerId", "/signup"]} children={<SignUpPage/>} />
+        </Switch>
+
         </BrowserRouter>
       </div>
     )
     
     /*
-    <SignUpPage/>
-        <ReferralSendEmails/>
-
     return (
       <div>
        <h1>Therichpost.com</h1>
@@ -51,11 +51,14 @@ class App extends React.Component
         </div>
     )
     */
+    
   }
   
   //send email button click function
   sendmail(){
-    axios.get('http://localhost/laravel8/public/api/send/email'
+    //axios.get('http://localhost/laravel8/public/api/send/email'
+    axios.post('http://localhost:8000/api/send/email'
+    //http://localhost:8000/api/register
     ).then(res=>
     {
       console.log(res.data['message']);
